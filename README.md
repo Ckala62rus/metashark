@@ -1,18 +1,75 @@
-# Первое включение
+# Metashark (Простая система бронирования номеров)
 
 
-#### Debugg PHPStorm
-https://www.youtube.com/watch?v=9MhHQJjMulk
+### Сборка проекта
+
+1. Делаем сборку подготовленных Docker образов.
+
+  ```bash
+  docker compose build --no-cache
+  ```
+
+2. Запускаем контейнеры в фоне
+
+```bash
+docker compose up -d
+```
+
+3. Заходим в контейнер
+
+```bash
+docker exec -ti backend-metashark bash
+```
+
+4. Устанавливаем зависимости проекта
+
+```bash
+composer install
+```
+
+5. Внутри проекта сделать копию .env.example на .env.
+Для удобства там уже всё настроено. Свои настройки делать не нужно.
+
+```bash
+cp .env.example .env
+```
+
+6. Устанавливаем миграции
+
+```bash
+php artisan migrate
+```
+
+7. Запускаем все тесты.
+
+```bash
+clear && vendor/bin/phpunit
+```
+
+## ВАЖНО!
+
+Так как используется одна база данных (для удобства) под проект и тесты, при их запуске
+база очистится! И нужно будет выполнять сиды заново.
+
+8. Выполняем Seed
+
+```bash
+php artisan db:seed
+```
+
+### Запросы к Api
+
+Получить список всех свободных номеров (без авторизации).
+По умолчанию: текущая дата + неделя.
+
+- /api/rooms
+
+С фильтром по датам (с интервалом)
+
+- /api/rooms?start_date=2025-04-01&end_date=2025-04-03
+
+Поиск по массиву дат
+
+- /api/rooms?dates[]=2025-07-10&dates[]=2025-07-11&dates[]=2025-07-12
 
 
-#### Cron
-https://laracasts.com/discuss/channels/code-review/crontab-no-scheduled-commands-are-ready-to-run
-В случае ошибки крона, что нет запланированных заданий. 
-Нужно почистить кэш или удалить.
-всё из директории storage/framework/cache/data
-
-#### Create docker image tag
-docker push ckala62rus/docker_php_sqlsrv-cron-new-template --all-tags
-
-#### Create new tag from base image
-docker tag docker_php_sqlsrv-cron-new-template ckala62rus/docker_php_sqlsrv-cron-new-template:1.0.0

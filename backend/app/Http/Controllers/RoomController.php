@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Contracts\RoomServiceInterface;
 use App\Http\Requests\RoomListRequest;
-use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
+use App\Http\Resources\RoomResource;
 
 class RoomController extends Controller
 {
@@ -25,6 +26,6 @@ class RoomController extends Controller
             ->roomService
             ->getFreeRooms($request->validated());
 
-        return response()->json($rooms, Response::HTTP_OK);
+        return response()->json(RoomResource::collection($rooms), Response::HTTP_OK);
     }
 }

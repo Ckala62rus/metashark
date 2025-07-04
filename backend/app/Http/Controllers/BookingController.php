@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Contracts\BookingServiceInterface;
 use App\Http\Requests\BookingRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 
 class BookingController extends BaseController
 {
